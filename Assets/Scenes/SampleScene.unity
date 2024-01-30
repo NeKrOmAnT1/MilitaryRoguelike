@@ -322,7 +322,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 183dac80486cc4f4db255dedc091d21a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obj: {fileID: 1268569929}
+  "_\u0441ameraDistantseSettings": {x: 0, y: 6, z: -2.8}
+  "_\u0441ameraMovingSpeed": 10
 --- !u!1 &1044650600
 GameObject:
   m_ObjectHideFlags: 0
@@ -493,7 +494,7 @@ Rigidbody:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_ImplicitCom: 1
+  m_ImplicitCom: 0
   m_ImplicitTensor: 1
   m_UseGravity: 0
   m_IsKinematic: 0
