@@ -1,14 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraScript : MonoBehaviour
-{
-    [SerializeField]GameObject obj;
+{   [SerializeField] private Vector3 _сameraDistantseSettings;
+    [SerializeField] private float _сameraMovingSpeed;
+    [SerializeField] private Transform _playerTransform;
 
-    // Update is called once per frame
-    void Update()
+    private void CameraMove()
     {
-        transform.position = obj.transform.position + new Vector3(0,5,-2.8f);
+        var CamPosition = new Vector3(_сameraDistantseSettings.x + _playerTransform.position.x, _сameraDistantseSettings.y + _playerTransform.position.y, _сameraDistantseSettings.z + _playerTransform.position.z);
+        transform.position = Vector3.Lerp(transform.position, CamPosition, _сameraMovingSpeed * Time.deltaTime);
+    }
+
+    private void FixedUpdate()
+    {
+        CameraMove();
     }
 }
