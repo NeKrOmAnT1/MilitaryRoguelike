@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField]Rigidbody rb;
+    Rigidbody rb;
     Vector2 moveTransform;
     Vector3 targetPos;
 

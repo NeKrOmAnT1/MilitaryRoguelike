@@ -2,13 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[RequireComponent(typeof(PlayerController),typeof(Rigidbody))]
 public class Player : MonoBehaviour, IDamageble
 {
     public static Player Instance { get; private set; }
     //можно впринципе сделать оболчку дл€ листа статов с индексатором
     #region Stats
-    public Stat Hp {  get; private set; }
+    public Stat Hp { get; private set; }
     public Stat Armour { get; private set; }
     public Stat Movespeed { get; private set; }
     public Stat Luck { get; private set; }
@@ -17,7 +17,7 @@ public class Player : MonoBehaviour, IDamageble
     public Stat AttackDamage { get; private set; }
     public Stat AttackAmount { get; private set; }
     #endregion
-    public Weapon MainWeapon { get; private set; }
+    public Ally MainAlly { get; private set; }//если союзники будут инкапсулировать статы, то можно только союзников и парсить
 
     public float CurrHP { get; private set; }
     int currLvl;
@@ -26,14 +26,11 @@ public class Player : MonoBehaviour, IDamageble
     float requierExp;
     bool immunable;
     PlayerController playerController;
-    //пока что все на пушки скидываю
-    event Action<Vector2> Shoot;
     //ну это скорее всего на геймменеджер уйдет или со статики
-    public int CurrWeaponCount { get; private set; }
+    public int CurrWeaponCount { get { return allys.Count; } }
     public int WeaponMaxCount { get; private set; }
 
-    //пока что без инкапсул€ции
-    public List<Weapon> NewWeapons { get; private set; } = new List<Weapon>();
+    List<GameObject> allys = new List<GameObject>();
 
     //или Awake
     public void Init(/* вс€кое дл€ иницилизации лучше в скиптэбл запихать*/ PlayerSO _so, int _wpMax)
@@ -55,9 +52,10 @@ public class Player : MonoBehaviour, IDamageble
         #endregion
 
 
-        MainWeapon = _so.MainWeapon;
-        Shoot += MainWeapon.Shoot;
-        CurrWeaponCount = 1;
+        MainAlly = _so.MainAlly;
+        var ally = Instantiate(_so.MainAlly.gameObject, transform.position, transform.rotation);
+        ally.transform.parent = gameObject.transform;
+        allys.Add(ally);
 
         alive = true;
         CurrHP = Hp.Value;
@@ -67,12 +65,13 @@ public class Player : MonoBehaviour, IDamageble
         requierExp = 10;
 
         playerController = GetComponent<PlayerController>();
+        playerController.Init();
     }
     private void Update()
     {
         if (alive)
         {
-            Shoot?.Invoke(playerController.GetMousePoint());
+            MainAlly.Gun.Shoot(playerController.GetMousePoint());
         }
     }
 
@@ -110,12 +109,24 @@ public class Player : MonoBehaviour, IDamageble
 
     #region DiffCalsses
     //на будующее
-    public void GetNewWeapon(Weapon _wp)
+    public void GetNewAlly(Ally _wp)
     {
-        NewWeapons.Add(_wp);
-        CurrWeaponCount++;
-
-        Shoot += _wp.Shoot;
+        float rad = 1;
+        float angle = 0;
+        for (int i = 0; i < CurrWeaponCount + 1; i++)
+        {
+            Vector3 pos = -(new Vector3(Mathf.Sin(angle), 0, Mathf.Cos(angle))) * rad;
+            angle += Mathf.PI * 2f / (CurrWeaponCount + 1);
+            if (i == CurrWeaponCount)
+            {
+                var ally = Instantiate(_wp.gameObject, pos, Quaternion.identity);
+                ally.transform.parent = gameObject.transform;
+                allys.Add(ally);
+                ally.transform.localPosition = pos;
+                break;
+            }else
+            allys[i].transform.localPosition = pos;
+        }
     }
     public void GetExp(float _exp)
     {

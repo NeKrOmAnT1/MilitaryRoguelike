@@ -15,5 +15,5 @@ public class PlayerSO : ScriptableObject
     [field: SerializeField, Range(1, float.MaxValue)] public float AttackCD { get; private set; }
     [field: SerializeField, Range(1, float.MaxValue)] public float AttackDamage { get; private set; }
     [field: SerializeField, Range(1,float.MaxValue)] public float AttackAmount { get; private set; }
-    [field: SerializeField] public Weapon MainWeapon { get; private set; }
+    [field: SerializeField] public Ally MainAlly { get; private set; }
 }

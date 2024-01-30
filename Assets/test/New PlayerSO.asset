@@ -20,4 +20,4 @@ MonoBehaviour:
   <AttackCD>k__BackingField: 0
   <AttackDamage>k__BackingField: 0
   <AttackAmount>k__BackingField: 0
-  <MainWeapon>k__BackingField: {fileID: 7539184944762131409, guid: 497b0c7814d5a53488a2edf9b29cbb9b, type: 3}
+  <MainAlly>k__BackingField: {fileID: 8052748724652507700, guid: 33cf7142106be3e479339cb1957b2667, type: 3}
