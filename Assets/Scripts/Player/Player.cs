@@ -55,6 +55,8 @@ public class Player : MonoBehaviour, IDamageble
         MainAlly = _so.MainAlly;
         var ally = Instantiate(_so.MainAlly.gameObject, transform.position, transform.rotation);
         ally.transform.parent = gameObject.transform;
+        ally.transform.Rotate(new Vector3(0,180,0));
+        ally.GetComponent<Ally>().Init();
         allys.Add(ally);
 
         alive = true;
@@ -66,6 +68,7 @@ public class Player : MonoBehaviour, IDamageble
 
         playerController = GetComponent<PlayerController>();
         playerController.Init();
+        playerController.SubsctibeToMove(ally.GetComponent<Ally>().SetCorrectAnimation);
     }
     private void Update()
     {
@@ -122,6 +125,7 @@ public class Player : MonoBehaviour, IDamageble
                 var ally = Instantiate(_wp.gameObject, pos, Quaternion.identity);
                 ally.transform.parent = gameObject.transform;
                 allys.Add(ally);
+                playerController.SubsctibeToMove(ally.GetComponent<Ally>().SetCorrectAnimation);
                 ally.transform.localPosition = pos;
                 break;
             }else

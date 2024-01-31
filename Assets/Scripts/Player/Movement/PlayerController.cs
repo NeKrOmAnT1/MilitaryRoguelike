@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,10 +9,16 @@ public class PlayerController : MonoBehaviour
     Rigidbody rb;
     Vector2 moveTransform;
     Vector3 targetPos;
+    Action<Vector2> OnMoving;
 
     public void Init()
     {
         rb = GetComponent<Rigidbody>();
+    }
+
+    public void SubsctibeToMove(Action<Vector2> move)
+    {
+        OnMoving += move;
     }
 
     private void FixedUpdate()
@@ -22,6 +29,7 @@ public class PlayerController : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         moveTransform = context.ReadValue<Vector2>() * Player.Instance.Movespeed.Value;
+        OnMoving?.Invoke(context.ReadValue<Vector2>());
     }
     public void OnAim(InputAction.CallbackContext context) 
     {
