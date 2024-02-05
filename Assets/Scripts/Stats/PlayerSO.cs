@@ -1,12 +1,10 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 [System.Serializable]
 [CreateAssetMenu(fileName = "New PlayerSO", menuName = "PlayerSO")]
 public class PlayerSO : ScriptableObject
 {
-    //Пока что макс велью
+    //пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
     [field: SerializeField, Range(1,float.MaxValue)]public float Hp { get; private set; }
     [field: SerializeField] public float Armour { get; private set; }
     [field: SerializeField, Range(1, float.MaxValue)] public float Movespeed { get; private set; }
