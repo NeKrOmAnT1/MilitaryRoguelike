@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour, IDamageble
 {
     public static Player Instance { get; private set; }
-    //можно впринципе сделать оболчку для листа статов с индексатором
+ 
     #region Stats
     public Stat Hp { get; private set; }
     public Stat Armour { get; private set; }
@@ -17,7 +16,7 @@ public class Player : MonoBehaviour, IDamageble
     public Stat AttackDamage { get; private set; }
     public Stat AttackAmount { get; private set; }
     #endregion
-    public Ally MainAlly { get; private set; }//если союзники будут инкапсулировать статы, то можно только союзников и парсить
+    public Ally MainAlly { get; private set; }
 
     public float CurrHP { get; private set; }
     int currLvl;
@@ -26,20 +25,20 @@ public class Player : MonoBehaviour, IDamageble
     float requierExp;
     bool immunable;
     PlayerController playerController;
-    //ну это скорее всего на геймменеджер уйдет или со статики
+
     public int CurrWeaponCount { get { return allys.Count; } }
     public int WeaponMaxCount { get; private set; }
 
     List<GameObject> allys = new List<GameObject>();
+    [SerializeField] private GameObject _player;
 
-    //или Awake
-    public void Init(/* всякое для иницилизации лучше в скиптэбл запихать*/ PlayerSO _so, int _wpMax)
+    public void Init(PlayerSO _so, int _wpMax)
     {
         if (Instance == null)
             Instance = this;
         else if (Instance == this)
             Destroy(gameObject);
-        //потом можно парсить с SO чара
+       
         #region StatsInit
         Hp = new(_so.Hp);
         Armour = new(_so.Armour, true);
@@ -66,15 +65,15 @@ public class Player : MonoBehaviour, IDamageble
         currLvl = 1;
         requierExp = 10;
 
-        playerController = GetComponent<PlayerController>();
-        playerController.Init();
-        playerController.SubsctibeToMove(ally.GetComponent<Ally>().SetCorrectAnimation);
+        // playerController = GetComponent<PlayerController>();
+        // playerController.Init();
+        // playerController.SubsctibeToMove(ally.GetComponent<Ally>().SetCorrectAnimation);
     }
     private void Update()
     {
         if (alive)
         {
-            MainAlly.Gun.Shoot(playerController.GetMousePoint());
+            // MainAlly.Gun.Shoot(playerController.GetMousePoint());
         }
     }
 
@@ -97,7 +96,7 @@ public class Player : MonoBehaviour, IDamageble
         if(CurrHP > Hp.Value)
             CurrHP = Hp.Value;
     }
-    //тут будет обращение к геймменеджеру или можно через эвент реализовать
+   
     public void Death()
     {
         alive = false;
@@ -111,7 +110,7 @@ public class Player : MonoBehaviour, IDamageble
     }
 
     #region DiffCalsses
-    //на будующее
+ 
     public void GetNewAlly(Ally _wp)
     {
         float rad = 1;
@@ -125,7 +124,7 @@ public class Player : MonoBehaviour, IDamageble
                 var ally = Instantiate(_wp.gameObject, pos, Quaternion.identity);
                 ally.transform.parent = gameObject.transform;
                 allys.Add(ally);
-                playerController.SubsctibeToMove(ally.GetComponent<Ally>().SetCorrectAnimation);
+                // playerController.SubsctibeToMove(ally.GetComponent<Ally>().SetCorrectAnimation);
                 ally.transform.localPosition = pos;
                 break;
             }else
@@ -145,10 +144,8 @@ public class Player : MonoBehaviour, IDamageble
         }
     }
     private void LvlUp()
-    {
-        //Функция прокачки или ссылка геймменеджер
-        currLvl++;
-        //ну формулу надо будет подбалансить
+    {        
+        currLvl++;       
         requierExp *= (float)currLvl / 1.5f;
     }
     #endregion

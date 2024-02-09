@@ -2,7 +2,7 @@
     "name": "InputSystem",
     "maps": [
         {
-            "name": "Player",
+            "name": "Gameplay",
             "id": "2d514f12-f38c-405d-964d-90443ca56884",
             "actions": [
                 {
@@ -152,6 +152,12 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "UI",
+            "id": "3697cbca-031e-4c5a-afa2-5d61eae7beb4",
+            "actions": [],
+            "bindings": []
         }
     ],
     "controlSchemes": [
