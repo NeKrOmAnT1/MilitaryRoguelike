@@ -19,7 +19,7 @@ public class TeamSpawner : MonoBehaviour
 
     void SpawnCharacter(GameObject unitPrefab, List<GameObject> unitList, float radius) 
     {
-        GameObject prefab = Instantiate(unitPrefab);
+        GameObject prefab = Instantiate(unitPrefab, transform);
         
             unitList.Add(prefab);
 
@@ -27,7 +27,7 @@ public class TeamSpawner : MonoBehaviour
             {
                 if (unitList.Count > 1) 
                 {
-                    float angle = unitList.IndexOf(unit) * Mathf.PI * 2 / unitList.Count;
+                    float angle = unitList.IndexOf(unit) * -Mathf.PI / unitList.Count;
                     float x = Mathf.Cos(angle) * radius;
                     float z = Mathf.Sin(angle) * radius;
                     Vector3 pos = transform.position + new Vector3(x, 0, z);
