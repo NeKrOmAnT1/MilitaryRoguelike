@@ -2,11 +2,22 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerInput : MonoBehaviour
-{       
-    private InputSystem _playerInput;    
+{     
+    public static PlayerInput Instance{get; private set;}  
+    public Vector2 Direction{get; private set;} 
+    private InputSystem _playerInput;   
 
     private void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
         _playerInput = new InputSystem();
     }
 
@@ -28,11 +39,11 @@ public class PlayerInput : MonoBehaviour
 
     private void OnMoveDirectionPerformed(InputAction.CallbackContext context)
     {
-        PlayerController.Instance.DirectionMove = context.ReadValue<Vector2>();
+        Direction = context.ReadValue<Vector2>();
     }
 
     private void OnMoveDirectionCancelled(InputAction.CallbackContext context)
     {
-        PlayerController.Instance.DirectionMove = Vector2.zero;
+        Direction = Vector2.zero;
     }    
 }

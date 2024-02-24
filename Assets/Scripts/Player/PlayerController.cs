@@ -6,15 +6,13 @@ public class PlayerController : MonoBehaviour
     public static PlayerController Instance;
     public Vector2 DirectionMove {set; get;}
     public Vector3 MousePoint {get; private set;}
-    public Transform PlayerTransform;
+    [HideInInspector] public Transform PlayerTransform;
    
     [SerializeField] private float _moveSpeed = 3;
     private CharacterController _controller;
-    private Camera _mainCamera;
+    private Camera _mainCamera;   
 
-    
-
-    public void Initialize()
+    public void Awake()
     {
         if (Instance == null)
         {
@@ -30,12 +28,7 @@ public class PlayerController : MonoBehaviour
         _controller = GetComponent<CharacterController>();
         _mainCamera = Camera.main;
     }
-
-    private void Awake()
-    {
-        Initialize();
-    }
-
+    
     private void Update()
     {
         ReadMousePoint();
@@ -46,7 +39,7 @@ public class PlayerController : MonoBehaviour
         if(_controller == null)
             return;
 
-        Move(DirectionMove);
+        Move(PlayerInput.Instance.Direction);
         RotationPlayer();
     }
 

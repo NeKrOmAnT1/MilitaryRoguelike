@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerView
 {
-    Animator animator;
+    private Animator animator;
     public PlayerView(Animator animator)
     {
         this.animator = animator;

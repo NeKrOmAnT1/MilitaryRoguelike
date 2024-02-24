@@ -13,7 +13,7 @@ public class PlayerSO : ScriptableObject
     [field: SerializeField, Range(1, float.MaxValue)] public float AttackCD { get; private set; }
     [field: SerializeField, Range(1, float.MaxValue)] public float AttackDamage { get; private set; }
     [field: SerializeField, Range(1,float.MaxValue)] public float AttackAmount { get; private set; }
-    [field: SerializeField] public Ally MainAlly { get; private set; }
+    //[field: SerializeField] public Ally MainAlly { get; private set; }
 
     public PlayerSO(PlayerSO temp)
     {
@@ -25,6 +25,6 @@ public class PlayerSO : ScriptableObject
         AttackCD = temp.AttackCD;
         AttackDamage = temp.AttackDamage;
         AttackAmount = temp.AttackAmount;
-        MainAlly = temp.MainAlly;
+        //MainAlly = temp.MainAlly;
     }
 }
