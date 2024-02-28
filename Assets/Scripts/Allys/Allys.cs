@@ -2,19 +2,19 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class Allys : MonoBehaviour
 {
-    private PlayerView playerView;
+    private int _numberAlly;
+    public int NumberAlly{get{return _numberAlly;}}
+    private static int _countAllys = 0;
+
     private void Awake()
     {
-        playerView = new(GetComponent<Animator>());
+        _numberAlly = ++_countAllys;
+
+        gameObject.AddComponent<AllysMovment>();        
     }
 
     private void FixedUpdate()
     {
         
-    }
-
-    public void SetCorrectAnimation(Vector2 direction)
-    {        
-        playerView.AnimationMove(direction);
     }
 }
