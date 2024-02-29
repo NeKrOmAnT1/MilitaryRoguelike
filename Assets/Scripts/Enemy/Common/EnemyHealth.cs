@@ -1,11 +1,17 @@
+using System;
 using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    private float health;
-    [SerializeField] private float maxHealth;
+    public event Action<int> OnTakeDamage;
+
+    private int health;
+    [SerializeField] private int maxHealth;
 
     private bool isDead;
+
+    public int CurrentHealth => health;   
+
 
     void Awake()
     {
@@ -15,6 +21,8 @@ public class EnemyHealth : MonoBehaviour
     public void TakeDamage(int amount)
     {
         health -= amount;
+
+        OnTakeDamage?.Invoke(health);
 
         if (health <= 0)
         {
